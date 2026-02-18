@@ -1,3 +1,4 @@
 [submodule "embeddedsw"]
 	path = embeddedsw
 	url = https://github.com/Xilinx/embeddedsw.git
+	branch = xlnx_rel_v2025.2
