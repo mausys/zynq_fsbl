@@ -1,4 +1,6 @@
 # zynq_fsbl
+First Stage Bootloader for the Duebon TEC0097 board:
+https://www.duebon-engineering.de/product/zynq-pcie
 
 ## Replacing XSA-file
 requirements:
