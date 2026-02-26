@@ -9,7 +9,7 @@ clone with submodules:
 requirements:
 - Vivado 2025.2 must be installed
 
-Generate BSP:
+Generate BSP:\
 `./sdtgen.sh`
 
 ## Build
@@ -18,9 +18,9 @@ requirements:
  - arm-none-eabi-gcc toolchain
  - Xilinx bootgen (comes with Vivado, but is open source, so can be installed directly on some linux distributions) 
 
-`mkdir out`
-`cd out`
-`cmake ..`
+`mkdir out`\
+`cd out`\
+`cmake ..`\
 `make`
 
 ## Download boot.bin to QSPI flash
