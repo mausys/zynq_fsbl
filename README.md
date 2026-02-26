@@ -2,6 +2,9 @@
 First Stage Bootloader for the Duebon TEC0097 board:
 https://www.duebon-engineering.de/product/zynq-pcie
 
+clone with submodules:
+`git clone --recurse-submodules https://github.com/mausys/zynq_fsbl.git`
+
 ## Replacing XSA-file
 requirements:
 - Vivado 2025.2 must be installed
