@@ -126,6 +126,7 @@ set(BSP_GEN_SRCS
 	${BSP_GEN_DIR}/libsrc/devcfg_v3_9/src/xdevcfg_g.c)
 
 set(BSP_GEN_INC
+	${BSP_GEN_DIR}/libsrc/standalone_v9_4/src
 	${BSP_GEN_DIR}/include)
 
 
@@ -177,5 +178,5 @@ file(GENERATE OUTPUT boot.bif
 	"
 	)
 
-add_custom_command(OUTPUT boot.bin COMMAND bootgen -arch zynq -image boot.bif -o boot.bin DEPENDS boot.bif ${CMAKE_PROJECT_NAME}.elf)
+add_custom_command(OUTPUT boot.bin COMMAND bootgen -w -arch zynq -image boot.bif -o boot.bin DEPENDS boot.bif ${CMAKE_PROJECT_NAME}.elf)
 add_custom_target(create_boot_bin ALL DEPENDS boot.bin)
