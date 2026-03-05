@@ -4,10 +4,9 @@ SDTGEN=${SDTGEN:="sdtgen"}
 
 ROOT_DIR=$(dirname "$0")
 HW_DIR=$ROOT_DIR/hw/tec0097
-XSA_FILE=$HW_DIR/release/pcie.xsa
 
 #export CUSTOM_SDT_REPO=$ROOT_DIR/system-device-tree-xlnx
- 
+
 BSP_OUT_DIR=$ROOT_DIR/bsp
 XSA_OUT_DIR=$ROOT_DIR/xsa
 XSA_FILE=$HW_DIR/release/pcie.xsa
