@@ -2,3 +2,6 @@
 	path = embeddedsw
 	url = https://github.com/Xilinx/embeddedsw.git
 	branch = xlnx_rel_v2025.2
+[submodule "hw/tec0097"]
+	path = hw/tec0097
+	url = https://github.com/mausys/tec0097-pcie.git
