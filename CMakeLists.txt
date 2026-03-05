@@ -28,6 +28,9 @@ set(ARCH_FLAGS -mcpu=cortex-a9 -mfpu=vfpv3 -mfloat-abi=hard)
 set(EXTRA_C_FLAGS -O2 -g -Wall -Wextra -nostartfiles -fno-tree-loop-distribute-patterns)
 set(CMAKE_TRY_COMPILE_TARGET_TYPE STATIC_LIBRARY)
 
+
+set (BIT_FILE ${CMAKE_CURRENT_SOURCE_DIR}/xsa/pcie.bit)
+
 project(fsbl LANGUAGES C ASM )
 
 
@@ -173,7 +176,7 @@ file(GENERATE OUTPUT boot.bif
 	"the_ROM_image:
 		{
 		[bootloader]${CMAKE_PROJECT_NAME}.elf
-		${CMAKE_CURRENT_SOURCE_DIR}/xsa/TOP_wrapper.bit
+		${BIT_FILE}
 		}
 	"
 	)
