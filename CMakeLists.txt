@@ -104,6 +104,7 @@ set(DRV_SRCS
 	${DRIVERS_DIR}/devcfg/src/xdevcfg_intr.c
 	${DRIVERS_DIR}/devcfg/src/xdevcfg_selftest.c
 	${DRIVERS_DIR}/devcfg/src/xdevcfg_sinit.c
+	${DRIVERS_DIR}/devcfg/src/xdevcfg_g.c
 
 	${DRIVERS_DIR}/uartps/src/xuartps_hw.c
 	${DRIVERS_DIR}/uartps/src/xuartps_selftest.c
@@ -116,7 +117,8 @@ set(DRV_SRCS
 	${DRIVERS_DIR}/qspips/src/xqspips_hw.c
 	${DRIVERS_DIR}/qspips/src/xqspips_options.c
 	${DRIVERS_DIR}/qspips/src/xqspips_selftest.c
-	${DRIVERS_DIR}/qspips/src/xqspips_sinit.c)
+	${DRIVERS_DIR}/qspips/src/xqspips_sinit.c
+	${DRIVERS_DIR}/qspips/src/xqspips_g.c)
 
 set(DRV_INC
 	${DRIVERS_DIR}/devcfg/src
@@ -124,9 +126,7 @@ set(DRV_INC
 	${DRIVERS_DIR}/qspips/src)
 
 set(BSP_GEN_SRCS
-	${BSP_GEN_DIR}/libsrc/standalone_v9_4/src/outbyte.c
-	${BSP_GEN_DIR}/libsrc/qspips_v3_14/src/xqspips_g.c
-	${BSP_GEN_DIR}/libsrc/devcfg_v3_9/src/xdevcfg_g.c)
+	${BSP_GEN_DIR}/libsrc/standalone_v9_4/src/outbyte.c)
 
 set(BSP_GEN_INC
 	${BSP_GEN_DIR}/libsrc/standalone_v9_4/src
