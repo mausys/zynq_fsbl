@@ -33,66 +33,68 @@ set (BIT_FILE ${CMAKE_CURRENT_SOURCE_DIR}/xsa/pcie.bit)
 
 project(fsbl LANGUAGES C ASM )
 
-
 set(BSP_SRCS
+	${BSP_SRC_DIR}/common/print.c
+	${BSP_SRC_DIR}/common/inbyte.c
+	${BSP_SRC_DIR}/common/xil_assert.c
+	${BSP_SRC_DIR}/common/xil_mem.c
+	${BSP_SRC_DIR}/common/xil_printf.c
+	${BSP_SRC_DIR}/common/xil_sleepcommon.c
+	${BSP_SRC_DIR}/common/xil_sutil.c
+	${BSP_SRC_DIR}/common/xil_testcache.c
+	${BSP_SRC_DIR}/common/xil_testio.c
+	${BSP_SRC_DIR}/common/xil_util.c
+	${BSP_SRC_DIR}/common/xplatform_info.c
+	${BSP_SRC_DIR}/common/xpm_init.c
+	
+	${BSP_SRC_DIR}/common/intr/xinterrupt_wrap.c
+	
+	${BSP_SRC_DIR}/arm/common/putnum.c
+	${BSP_SRC_DIR}/arm/common/xil_exception.c
+	${BSP_SRC_DIR}/arm/common/xil_spinlock.c
+	${BSP_SRC_DIR}/arm/common/xpm_counter.c
+	${BSP_SRC_DIR}/arm/common/vectors.c
+	
+	${BSP_SRC_DIR}/arm/common/gcc/_exit.c
+	${BSP_SRC_DIR}/arm/common/gcc/_open.c
+	${BSP_SRC_DIR}/arm/common/gcc/_sbrk.c
+	${BSP_SRC_DIR}/arm/common/gcc/abort.c
+	${BSP_SRC_DIR}/arm/common/gcc/close.c
+	${BSP_SRC_DIR}/arm/common/gcc/cpputest_time.c
+	${BSP_SRC_DIR}/arm/common/gcc/errno.c
+	${BSP_SRC_DIR}/arm/common/gcc/fcntl.c
+	${BSP_SRC_DIR}/arm/common/gcc/fstat.c
+	${BSP_SRC_DIR}/arm/common/gcc/getentropy.c
+	${BSP_SRC_DIR}/arm/common/gcc/getpid.c
+	${BSP_SRC_DIR}/arm/common/gcc/gettimeofday.c
+	${BSP_SRC_DIR}/arm/common/gcc/isatty.c
+	${BSP_SRC_DIR}/arm/common/gcc/kill.c
+	${BSP_SRC_DIR}/arm/common/gcc/lseek.c
+	${BSP_SRC_DIR}/arm/common/gcc/open.c
+	${BSP_SRC_DIR}/arm/common/gcc/read.c
+	${BSP_SRC_DIR}/arm/common/gcc/sbrk.c
+	${BSP_SRC_DIR}/arm/common/gcc/time.c
+	${BSP_SRC_DIR}/arm/common/gcc/unlink.c
+	${BSP_SRC_DIR}/arm/common/gcc/write.c
+	
+	${BSP_SRC_DIR}/arm/cortexa9/usleep.c
+	${BSP_SRC_DIR}/arm/cortexa9/sleep.c
+	${BSP_SRC_DIR}/arm/cortexa9/xil_cache.c
+	${BSP_SRC_DIR}/arm/cortexa9/xil_misc_psreset_api.c
+	${BSP_SRC_DIR}/arm/cortexa9/xil_mmu.c
+	${BSP_SRC_DIR}/arm/cortexa9/xtime_l.c
 	${BSP_SRC_DIR}/arm/cortexa9/gcc/asm_vectors.S
 	${BSP_SRC_DIR}/arm/cortexa9/gcc/boot.S
 	${BSP_SRC_DIR}/arm/cortexa9/gcc/cpu_init.S
 	${BSP_SRC_DIR}/arm/cortexa9/gcc/translation_table.S
-	${BSP_SRC_DIR}/arm/cortexa9/gcc/xil-crt0.S
-	${BSP_SRC_DIR}/common/print.c
-	${BSP_SRC_DIR}/common/xil_assert.c
-	${BSP_SRC_DIR}/common/xil_mem.c
-	${BSP_SRC_DIR}/common/xil_printf.c
-	${BSP_SRC_DIR}/common/xil_testcache.c
-	${BSP_SRC_DIR}/common/xil_testio.c
-	${BSP_SRC_DIR}/common/xil_util.c
-	${BSP_SRC_DIR}/common/xil_sutil.c
-	${BSP_SRC_DIR}/common/xplatform_info.c
-	${BSP_SRC_DIR}/common/outbyte.c
-	${BSP_SRC_DIR}/common/inbyte.c
-	${BSP_SRC_DIR}/common/xpm_init.c
-	${BSP_SRC_DIR}/common/xil_sleepcommon.c
-	${BSP_SRC_DIR}/common/intr/xinterrupt_wrap.c
-	${BSP_SRC_DIR}/arm/common/putnum.c
-	${BSP_SRC_DIR}/arm/common/vectors.c
-	${BSP_SRC_DIR}/arm/common/xil_exception.c
-	${BSP_SRC_DIR}/arm/common/xil_spinlock.c
-	${BSP_SRC_DIR}/arm/common/xpm_counter.c
-	${BSP_SRC_DIR}/arm/common/gcc/cpputest_time.c
-	${BSP_SRC_DIR}/arm/common/gcc/read.c
-	${BSP_SRC_DIR}/arm/common/gcc/unlink.c
-	${BSP_SRC_DIR}/arm/common/gcc/sbrk.c
-	${BSP_SRC_DIR}/arm/common/gcc/isatty.c
-	${BSP_SRC_DIR}/arm/common/gcc/_sbrk.c
-	${BSP_SRC_DIR}/arm/common/gcc/_exit.c
-	${BSP_SRC_DIR}/arm/common/gcc/fcntl.c
-	${BSP_SRC_DIR}/arm/common/gcc/close.c
-	${BSP_SRC_DIR}/arm/common/gcc/write.c
-	${BSP_SRC_DIR}/arm/common/gcc/getpid.c
-	${BSP_SRC_DIR}/arm/common/gcc/fstat.c
-	${BSP_SRC_DIR}/arm/common/gcc/open.c
-	${BSP_SRC_DIR}/arm/common/gcc/errno.c
-	${BSP_SRC_DIR}/arm/common/gcc/_open.c
-	${BSP_SRC_DIR}/arm/common/gcc/abort.c
-	${BSP_SRC_DIR}/arm/common/gcc/kill.c
-	${BSP_SRC_DIR}/arm/common/gcc/lseek.c
-	${BSP_SRC_DIR}/arm/common/gcc/getentropy.c
-	${BSP_SRC_DIR}/arm/common/gcc/gettimeofday.c
-	${BSP_SRC_DIR}/arm/common/gcc/time.c
-	${BSP_SRC_DIR}/arm/cortexa9/xil_cache.c
-	${BSP_SRC_DIR}/arm/cortexa9/xil_misc_psreset_api.c
-	${BSP_SRC_DIR}/arm/cortexa9/xil_mmu.c
-	${BSP_SRC_DIR}/arm/cortexa9/usleep.c
-	${BSP_SRC_DIR}/arm/cortexa9/xtime_l.c
-	${BSP_SRC_DIR}/arm/cortexa9/sleep.c)
+	${BSP_SRC_DIR}/arm/cortexa9/gcc/xil-crt0.S)
 
 
 set(BSP_INC
-	${BSP_SRC_DIR}/common
 	${BSP_SRC_DIR}/arm/cortexa9
+	${BSP_SRC_DIR}/arm/common/gcc
 	${BSP_SRC_DIR}/arm/common
-	${BSP_SRC_DIR}/arm/common/gcc)
+	${BSP_SRC_DIR}/common)
 
 
 set(DRV_SRCS
@@ -102,25 +104,25 @@ set(DRV_SRCS
 	${DRIVERS_DIR}/devcfg/src/xdevcfg_selftest.c
 	${DRIVERS_DIR}/devcfg/src/xdevcfg_sinit.c
 	${DRIVERS_DIR}/devcfg/src/xdevcfg_g.c
+	
+	${DRIVERS_DIR}/qspips/src/xqspips.c
+	${DRIVERS_DIR}/qspips/src/xqspips_hw.c
+	${DRIVERS_DIR}/qspips/src/xqspips_options.c
+	${DRIVERS_DIR}/qspips/src/xqspips_selftest.c
+	${DRIVERS_DIR}/qspips/src/xqspips_sinit.c
+	${DRIVERS_DIR}/qspips/src/xqspips_g.c
 
 	${DRIVERS_DIR}/uartps/src/xuartps_hw.c
 	${DRIVERS_DIR}/uartps/src/xuartps_selftest.c
 	${DRIVERS_DIR}/uartps/src/xuartps_intr.c
 	${DRIVERS_DIR}/uartps/src/xuartps.c
 	${DRIVERS_DIR}/uartps/src/xuartps_sinit.c
-	${DRIVERS_DIR}/uartps/src/xuartps_options.c
-
-	${DRIVERS_DIR}/qspips/src/xqspips.c
-	${DRIVERS_DIR}/qspips/src/xqspips_hw.c
-	${DRIVERS_DIR}/qspips/src/xqspips_options.c
-	${DRIVERS_DIR}/qspips/src/xqspips_selftest.c
-	${DRIVERS_DIR}/qspips/src/xqspips_sinit.c
-	${DRIVERS_DIR}/qspips/src/xqspips_g.c)
+	${DRIVERS_DIR}/uartps/src/xuartps_options.c)
 
 set(DRV_INC
 	${DRIVERS_DIR}/devcfg/src
-	${DRIVERS_DIR}/uartps/src
-	${DRIVERS_DIR}/qspips/src)
+	${DRIVERS_DIR}/qspips/src
+	${DRIVERS_DIR}/uartps/src)
 
 set(BSP_GEN_SRCS
 	${BSP_GEN_DIR}/libsrc/standalone_v9_4/src/outbyte.c)
@@ -156,7 +158,7 @@ add_executable(${CMAKE_PROJECT_NAME}.elf ${FSBL_SRCS} ${BSP_SRCS}  ${DRV_SRCS} $
 
 target_compile_options(${CMAKE_PROJECT_NAME}.elf PUBLIC ${ARCH_FLAGS} ${EXTRA_C_FLAGS})
 target_include_directories(${CMAKE_PROJECT_NAME}.elf PUBLIC ${CMAKE_CURRENT_SOURCE_DIR} ${BSP_GEN_INC} ${BSP_INC} ${DRV_INC} ${FSBL_INC})
-target_link_libraries(${CMAKE_PROJECT_NAME}.elf ${ARCH_FLAGS} -specs=${FSBL_SRC_DIR}/../misc/Xilinx.spec   -L${PROJECT_BINARY_DIR} -Wl,-build-id=none -Wl,--start-group,-lgcc,-lc,--end-group -Wl,--gc-sections -Wl,--start-group,-lgcc,-lc,--end-group -T${FSBL_SRC_DIR}/lscript.ld)
+target_link_libraries(${CMAKE_PROJECT_NAME}.elf ${ARCH_FLAGS} -specs=${FSBL_SRC_DIR}/../misc/Xilinx.spec  -Wl,-build-id=none -Wl,--start-group,-lgcc,-lc,--end-group -Wl,--gc-sections -Wl,--start-group,-lgcc,-lc,--end-group -T${FSBL_SRC_DIR}/lscript.ld)
 
 file(GENERATE OUTPUT boot.bif
 	CONTENT
