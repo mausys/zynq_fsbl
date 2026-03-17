@@ -34,14 +34,12 @@ set (BIT_FILE ${CMAKE_CURRENT_SOURCE_DIR}/xsa/pcie.bit)
 project(fsbl LANGUAGES C ASM )
 
 
-set(START_SRC
+set(BSP_SRCS
 	${BSP_SRC_DIR}/arm/cortexa9/gcc/asm_vectors.S
 	${BSP_SRC_DIR}/arm/cortexa9/gcc/boot.S
 	${BSP_SRC_DIR}/arm/cortexa9/gcc/cpu_init.S
 	${BSP_SRC_DIR}/arm/cortexa9/gcc/translation_table.S
-	${BSP_SRC_DIR}/arm/cortexa9/gcc/xil-crt0.S)
-
-set(BSP_SRCS
+	${BSP_SRC_DIR}/arm/cortexa9/gcc/xil-crt0.S
 	${BSP_SRC_DIR}/common/print.c
 	${BSP_SRC_DIR}/common/xil_assert.c
 	${BSP_SRC_DIR}/common/xil_mem.c
@@ -87,8 +85,7 @@ set(BSP_SRCS
 	${BSP_SRC_DIR}/arm/cortexa9/xil_mmu.c
 	${BSP_SRC_DIR}/arm/cortexa9/usleep.c
 	${BSP_SRC_DIR}/arm/cortexa9/xtime_l.c
-	${BSP_SRC_DIR}/arm/cortexa9/sleep.c
-	${BSP_SRC_DIR}/arm/cortexa9/usleep.c)
+	${BSP_SRC_DIR}/arm/cortexa9/sleep.c)
 
 
 set(BSP_INC
@@ -155,21 +152,11 @@ set(FSBL_INC
 	${EMBEDDEDSW_DIR}/lib/sw_services/xilffs/src/include)
 
 
-add_library(bsp STATIC
-	${DRV_SRCS}
-	${BSP_SRCS})
-
-
-target_compile_options(bsp PUBLIC ${ARCH_FLAGS} ${EXTRA_C_FLAGS})
-target_include_directories(bsp PUBLIC ${CMAKE_CURRENT_SOURCE_DIR} ${BSP_INC} ${DRV_INC} ${FSBL_INC})
-
-add_executable(${CMAKE_PROJECT_NAME}.elf ${START_SRC} ${BSP_GEN_SRCS} ${FSBL_SRCS})
-add_dependencies( ${CMAKE_PROJECT_NAME}.elf bsp )
-
+add_executable(${CMAKE_PROJECT_NAME}.elf ${FSBL_SRCS} ${BSP_SRCS}  ${DRV_SRCS} ${BSP_GEN_SRCS})
 
 target_compile_options(${CMAKE_PROJECT_NAME}.elf PUBLIC ${ARCH_FLAGS} ${EXTRA_C_FLAGS})
 target_include_directories(${CMAKE_PROJECT_NAME}.elf PUBLIC ${CMAKE_CURRENT_SOURCE_DIR} ${BSP_GEN_INC} ${BSP_INC} ${DRV_INC} ${FSBL_INC})
-target_link_libraries(${CMAKE_PROJECT_NAME}.elf ${ARCH_FLAGS} -specs=${FSBL_SRC_DIR}/../misc/Xilinx.spec   -L${PROJECT_BINARY_DIR} -Wl,-build-id=none -Wl,--start-group,-lbsp,-lgcc,-lc,--end-group -Wl,--gc-sections -Wl,--start-group,-lbsp,-lgcc,-lc,--end-group -T${FSBL_SRC_DIR}/lscript.ld)
+target_link_libraries(${CMAKE_PROJECT_NAME}.elf ${ARCH_FLAGS} -specs=${FSBL_SRC_DIR}/../misc/Xilinx.spec   -L${PROJECT_BINARY_DIR} -Wl,-build-id=none -Wl,--start-group,-lgcc,-lc,--end-group -Wl,--gc-sections -Wl,--start-group,-lgcc,-lc,--end-group -T${FSBL_SRC_DIR}/lscript.ld)
 
 file(GENERATE OUTPUT boot.bif
 	CONTENT
