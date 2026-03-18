@@ -14,7 +14,6 @@ set(TOOLCHAIN_ARCH_FLAGS "-mcpu=cortex-a9 -mfpu=vfpv3 -mfloat-abi=hard")
 set(CMAKE_C_FLAGS "${TOOLCHAIN_ARCH_FLAGS} -fno-tree-loop-distribute-patterns -O2 -g -Wall -Wextra")
 set(CMAKE_ASM_FLAGS "${TOOLCHAIN_ARCH_FLAGS}")
 set(CMAKE_C_LINK_FLAGS "${TOOLCHAIN_ARCH_FLAGS}")
-set(CMAKE_SPECS_FILE "${CMAKE_CURRENT_LIST_DIR}/embeddedsw/lib/sw_apps/zynq_fsbl/misc/Xilinx.spec")
 
 
 set(CMAKE_CROSSCOMPILING TRUE)
@@ -34,6 +33,9 @@ set(GEN_DIR ${CMAKE_CURRENT_SOURCE_DIR}/gen)
 set(XSA_DIR ${GEN_DIR}/xsa)
 
 set (BIT_FILE ${XSA_DIR}/pcie.bit)
+
+set(LINKER_SPECS_FILE "${CMAKE_CURRENT_LIST_DIR}/embeddedsw/lib/sw_apps/zynq_fsbl/misc/Xilinx.spec")
+set(LINKER_SCRIPT "${FSBL_SRC_DIR}/lscript.ld")
 
 project(fsbl LANGUAGES C ASM )
 
@@ -154,7 +156,7 @@ set(FSBL_INC
 add_executable(${CMAKE_PROJECT_NAME}.elf ${CMAKE_CURRENT_SOURCE_DIR}/main.c ${GEN_SRCS} ${FSBL_SRCS} ${BSP_SRCS} ${DRV_SRCS})
 
 target_include_directories(${CMAKE_PROJECT_NAME}.elf PUBLIC ${GEN_DIR} ${FSBL_INC} ${XSA_DIR} ${BSP_INC} ${DRV_INC})
-target_link_libraries(${CMAKE_PROJECT_NAME}.elf ${ARCH_FLAGS} -specs=${FSBL_SRC_DIR}/../misc/Xilinx.spec  -Wl,-build-id=none -Wl,--gc-sections -Wl,--start-group,-lgcc,-lc,--end-group -T${FSBL_SRC_DIR}/lscript.ld)
+target_link_options(${CMAKE_PROJECT_NAME}.elf PRIVATE -specs=${LINKER_SPECS_FILE} ${ARCH_FLAGS}  -Wl,-build-id=none -Wl,--gc-sections -Wl,--start-group,-lgcc,-lc,--end-group -T${LINKER_SCRIPT})
 
 file(GENERATE OUTPUT boot.bif
 	CONTENT
