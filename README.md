@@ -10,7 +10,7 @@ requirements:
 - Vivado 2025.2 must be installed
 
 Generate BSP:\
-`./sdtgen.sh`
+`./gen.sh`
 
 ## Build
 requirements:

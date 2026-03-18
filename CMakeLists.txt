@@ -3,33 +3,37 @@
 
 cmake_minimum_required(VERSION 4.0)
 
-set( CMAKE_SYSTEM_PROCESSOR "cortexa9" )
-set( CMAKE_MACHINE "Zynq" )
-set( CMAKE_SYSTEM_NAME "Generic" )
 
+set(CMAKE_SYSTEM_PROCESSOR "cortexa9")
+set(CMAKE_MACHINE "Zynq")
+set(CMAKE_SYSTEM_NAME "Generic")
+
+set(CMAKE_C_COMPILER arm-none-eabi-gcc )
+set(CMAKE_ASM_COMPILER arm-none-eabi-gcc )
+set(TOOLCHAIN_ARCH_FLAGS "-mcpu=cortex-a9 -mfpu=vfpv3 -mfloat-abi=hard")
+set(CMAKE_C_FLAGS "${TOOLCHAIN_ARCH_FLAGS} -fno-tree-loop-distribute-patterns -O2 -g -Wall -Wextra")
+set(CMAKE_ASM_FLAGS "${TOOLCHAIN_ARCH_FLAGS}")
+set(CMAKE_C_LINK_FLAGS "${TOOLCHAIN_ARCH_FLAGS}")
+set(CMAKE_SPECS_FILE "${CMAKE_CURRENT_LIST_DIR}/embeddedsw/lib/sw_apps/zynq_fsbl/misc/Xilinx.spec")
+
+
+set(CMAKE_CROSSCOMPILING TRUE)
+
+set(CMAKE_TRY_COMPILE_TARGET_TYPE STATIC_LIBRARY)
 
 
 
 set(EMBEDDEDSW_DIR ${CMAKE_CURRENT_SOURCE_DIR}/embeddedsw)
-set(XSA_DIR ${CMAKE_CURRENT_SOURCE_DIR}/xsa)
-set(FSBL_SRC_DIR ${EMBEDDEDSW_DIR}/lib/sw_apps/zynq_fsbl/src)
+
+
 set(BSP_SRC_DIR ${EMBEDDEDSW_DIR}/lib/bsp/standalone/src)
-set(BSP_GEN_DIR ${CMAKE_CURRENT_SOURCE_DIR}/bsp/ps7_cortexa9_0)
-
 set(DRIVERS_DIR ${EMBEDDEDSW_DIR}/XilinxProcessorIPLib/drivers)
+set(FSBL_SRC_DIR ${EMBEDDEDSW_DIR}/lib/sw_apps/zynq_fsbl/src)
 
+set(GEN_DIR ${CMAKE_CURRENT_SOURCE_DIR}/gen)
+set(XSA_DIR ${GEN_DIR}/xsa)
 
-set(CMAKE_C_COMPILER arm-none-eabi-gcc )
-set(CMAKE_CXX_COMPILER arm-none-eabi-g++ )
-set(CMAKE_ASM_COMPILER arm-none-eabi-gcc )
-set(CMAKE_AR arm-none-eabi-ar  )
-set(CMAKE_SIZE arm-none-eabi-size )
-set(ARCH_FLAGS -mcpu=cortex-a9 -mfpu=vfpv3 -mfloat-abi=hard)
-set(EXTRA_C_FLAGS -O2 -g -Wall -Wextra -nostartfiles -fno-tree-loop-distribute-patterns)
-set(CMAKE_TRY_COMPILE_TARGET_TYPE STATIC_LIBRARY)
-
-
-set (BIT_FILE ${CMAKE_CURRENT_SOURCE_DIR}/xsa/pcie.bit)
+set (BIT_FILE ${XSA_DIR}/pcie.bit)
 
 project(fsbl LANGUAGES C ASM )
 
@@ -124,12 +128,10 @@ set(DRV_INC
 	${DRIVERS_DIR}/qspips/src
 	${DRIVERS_DIR}/uartps/src)
 
-set(BSP_GEN_SRCS
-	${BSP_GEN_DIR}/libsrc/standalone_v9_4/src/outbyte.c)
 
-set(BSP_GEN_INC
-	${BSP_GEN_DIR}/libsrc/standalone_v9_4/src
-	${BSP_GEN_DIR}/include)
+set(GEN_SRCS
+	${GEN_DIR}/outbyte.c
+	${XSA_DIR}/ps7_init.c)
 
 
 set(FSBL_SRCS
@@ -141,24 +143,18 @@ set(FSBL_SRCS
 	${FSBL_SRC_DIR}/pcap.c
 	${FSBL_SRC_DIR}/qspi.c
 	${FSBL_SRC_DIR}/rsa.c
-	${FSBL_SRC_DIR}/fsbl_handoff.S
-	${CMAKE_CURRENT_SOURCE_DIR}/main.c
-	${XSA_DIR}/ps7_init.c)
+	${FSBL_SRC_DIR}/fsbl_handoff.S)
 
 set(FSBL_INC
 	${FSBL_SRC_DIR}
-	${BSP_GEN_SRC_DIR}
-	${BSP_GEN_INC}
-	${XSA_DIR}
 	${EMBEDDEDSW_DIR}/lib/sw_services/xiltimer/src
 	${EMBEDDEDSW_DIR}/lib/sw_services/xilffs/src/include)
 
 
-add_executable(${CMAKE_PROJECT_NAME}.elf ${FSBL_SRCS} ${BSP_SRCS}  ${DRV_SRCS} ${BSP_GEN_SRCS})
+add_executable(${CMAKE_PROJECT_NAME}.elf ${CMAKE_CURRENT_SOURCE_DIR}/main.c ${GEN_SRCS} ${FSBL_SRCS} ${BSP_SRCS} ${DRV_SRCS})
 
-target_compile_options(${CMAKE_PROJECT_NAME}.elf PUBLIC ${ARCH_FLAGS} ${EXTRA_C_FLAGS})
-target_include_directories(${CMAKE_PROJECT_NAME}.elf PUBLIC ${CMAKE_CURRENT_SOURCE_DIR} ${BSP_GEN_INC} ${BSP_INC} ${DRV_INC} ${FSBL_INC})
-target_link_libraries(${CMAKE_PROJECT_NAME}.elf ${ARCH_FLAGS} -specs=${FSBL_SRC_DIR}/../misc/Xilinx.spec  -Wl,-build-id=none -Wl,--start-group,-lgcc,-lc,--end-group -Wl,--gc-sections -Wl,--start-group,-lgcc,-lc,--end-group -T${FSBL_SRC_DIR}/lscript.ld)
+target_include_directories(${CMAKE_PROJECT_NAME}.elf PUBLIC ${GEN_DIR} ${FSBL_INC} ${XSA_DIR} ${BSP_INC} ${DRV_INC})
+target_link_libraries(${CMAKE_PROJECT_NAME}.elf ${ARCH_FLAGS} -specs=${FSBL_SRC_DIR}/../misc/Xilinx.spec  -Wl,-build-id=none -Wl,--gc-sections -Wl,--start-group,-lgcc,-lc,--end-group -T${FSBL_SRC_DIR}/lscript.ld)
 
 file(GENERATE OUTPUT boot.bif
 	CONTENT
