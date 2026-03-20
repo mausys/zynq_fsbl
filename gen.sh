@@ -18,3 +18,4 @@ cd $GEN_DIR
 "$SDTGEN" -eval "hsi set_repo_path $EMBEDDEDSW_DIR; hsi open_hw_design -outdir $XSA_OUT_DIR -name zynq_pcie $XSA_FILE; hsi generate_bsp -proc ps7_cortexa9_0 -hw zynq_pcie  -dir $BSP_OUT_DIR -os standalone; hsi close_hw_design zynq_pcie"
 cp $BSP_OUT_DIR/ps7_cortexa9_0/libsrc/standalone_v9_4/src/outbyte.c $GEN_DIR
 cp $BSP_OUT_DIR/ps7_cortexa9_0/include/xparameters.h $GEN_DIR
+cp $BSP_OUT_DIR/ps7_cortexa9_0/libsrc/standalone_v9_4/src/bspconfig.h $GEN_DIR

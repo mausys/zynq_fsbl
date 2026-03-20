@@ -40,7 +40,6 @@ set(LINKER_SCRIPT "${FSBL_SRC_DIR}/lscript.ld")
 project(fsbl LANGUAGES C ASM )
 
 set(BSP_SRCS
-	${BSP_SRC_DIR}/common/print.c
 	${BSP_SRC_DIR}/common/inbyte.c
 	${BSP_SRC_DIR}/common/xil_assert.c
 	${BSP_SRC_DIR}/common/xil_mem.c
@@ -51,14 +50,10 @@ set(BSP_SRCS
 	${BSP_SRC_DIR}/common/xil_testio.c
 	${BSP_SRC_DIR}/common/xil_util.c
 	${BSP_SRC_DIR}/common/xplatform_info.c
-	${BSP_SRC_DIR}/common/xpm_init.c
-	
-	${BSP_SRC_DIR}/common/intr/xinterrupt_wrap.c
 	
 	${BSP_SRC_DIR}/arm/common/putnum.c
 	${BSP_SRC_DIR}/arm/common/xil_exception.c
 	${BSP_SRC_DIR}/arm/common/xil_spinlock.c
-	${BSP_SRC_DIR}/arm/common/xpm_counter.c
 	${BSP_SRC_DIR}/arm/common/vectors.c
 	
 	${BSP_SRC_DIR}/arm/common/gcc/_exit.c
@@ -67,21 +62,6 @@ set(BSP_SRCS
 	${BSP_SRC_DIR}/arm/common/gcc/abort.c
 	${BSP_SRC_DIR}/arm/common/gcc/close.c
 	${BSP_SRC_DIR}/arm/common/gcc/cpputest_time.c
-	${BSP_SRC_DIR}/arm/common/gcc/errno.c
-	${BSP_SRC_DIR}/arm/common/gcc/fcntl.c
-	${BSP_SRC_DIR}/arm/common/gcc/fstat.c
-	${BSP_SRC_DIR}/arm/common/gcc/getentropy.c
-	${BSP_SRC_DIR}/arm/common/gcc/getpid.c
-	${BSP_SRC_DIR}/arm/common/gcc/gettimeofday.c
-	${BSP_SRC_DIR}/arm/common/gcc/isatty.c
-	${BSP_SRC_DIR}/arm/common/gcc/kill.c
-	${BSP_SRC_DIR}/arm/common/gcc/lseek.c
-	${BSP_SRC_DIR}/arm/common/gcc/open.c
-	${BSP_SRC_DIR}/arm/common/gcc/read.c
-	${BSP_SRC_DIR}/arm/common/gcc/sbrk.c
-	${BSP_SRC_DIR}/arm/common/gcc/time.c
-	${BSP_SRC_DIR}/arm/common/gcc/unlink.c
-	${BSP_SRC_DIR}/arm/common/gcc/write.c
 	
 	${BSP_SRC_DIR}/arm/cortexa9/usleep.c
 	${BSP_SRC_DIR}/arm/cortexa9/sleep.c
