@@ -134,9 +134,9 @@ set(FSBL_INC
 
 
 add_executable(${CMAKE_PROJECT_NAME}.elf ${CMAKE_CURRENT_SOURCE_DIR}/main.c ${GEN_SRCS} ${FSBL_SRCS} ${BSP_SRCS} ${DRV_SRCS})
-
+target_compile_options(${CMAKE_PROJECT_NAME}.elf PUBLIC -nostdlib)
 target_include_directories(${CMAKE_PROJECT_NAME}.elf PUBLIC ${GEN_DIR} ${FSBL_INC} ${XSA_DIR} ${BSP_INC} ${DRV_INC})
-target_link_options(${CMAKE_PROJECT_NAME}.elf PRIVATE -specs=${LINKER_SPECS_FILE} ${ARCH_FLAGS}  -Wl,-build-id=none -Wl,--gc-sections -Wl,--start-group,-lgcc,-lc,--end-group -T${LINKER_SCRIPT})
+target_link_options(${CMAKE_PROJECT_NAME}.elf PRIVATE -specs=${LINKER_SPECS_FILE} ${ARCH_FLAGS}  -Wl,-build-id=none -Wl,--gc-sections -T${LINKER_SCRIPT})
 
 file(GENERATE OUTPUT boot.bif
 	CONTENT
